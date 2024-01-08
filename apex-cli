@@ -1,0 +1,76 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types = 1);
+
+/**
+ * Define the namespace all CLI commands are found within.
+ */
+$cmd_namespace = [
+    "App\\Console",
+    "Apex\\Cli\\Examples"
+];
+
+/**
+ * Define shortcuts, key being the shortcut and 
+ * value being the full command.
+ */
+$shortcuts = [
+    'acct' => 'account',
+    'account reg' => 'account register',
+    'register' => 'account register'
+];
+
+/**
+ * When typo is assumed and command found, whether 
+ * to skip manual confirmation to run command.
+ */
+$autoconfirm_typos = false;
+
+
+/**
+ * Check the cwd and ensure we're currently inside an Composer installation 
+ * directory in case we're executing from the environment path.
+ */
+$cwd = checkCwd();
+
+/**
+ * Load up composer, so we have access to all of our goodies. 
+ */
+require_once($cwd . '/vendor/autoload.php');
+
+// Run, and exit
+$cli = new \Apex\Cli\Cli($cmd_namespace, $autoconfirm_typos);
+$cli->addShortcuts($shortcuts);
+$cli->run();
+
+// Exit
+exit(0);
+
+/**
+ * Check the CWD
+ *
+ * Get the current cwd, checks to ensure its a correct Apex installation.  Used 
+ * when the 'apex' phar archive is located within the environment path.
+ */
+function checkCwd()
+{
+
+    // Get directory
+    $dir = getcwd();
+    if (!file_exists("$dir/boot/container.php")) {
+        $dir = __DIR__;
+    }
+
+        // Check directory
+return $dir;
+    if (!file_exists("$dir/boot/container.php")) { die("Not in an Apex installation directory."); }
+    if (!file_exists("$dir/vendor/autoload.php")) { die("Composer packages have not yet been installed.  Please first install with:  composer update"); }
+    if (!file_exists("$dir/vendor/apex/cli/src/Cli.php")) { die("Not in an Apex installation directory."); }
+
+    // Return
+    return $dir;
+
+}
+
+
+

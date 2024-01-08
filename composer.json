@@ -1,0 +1,35 @@
+{
+    "name": "apex/cli",
+    "description": "Develop efficient console applications.", 
+    "type": "package",
+    "authors": [
+        {
+            "name": "Matt Dizak", 
+            "email": "matt@apexpl.io"
+        }
+    ], 
+    "homepage": "https://apexpl.io",
+    "support": {
+        "support": "https://reddit.com/r/apexpl",
+        "source": "https://github.com/apexpl/cli"
+    }, 
+    "license": "MIT",
+    "require": {
+        "php": ">=8.1",
+        "apex/container": "^2.0",
+        "symfony/string": "^6.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "apex/signer": "^2.0"
+    },
+    "bin": [
+        "apex-cli"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Apex\\Cli\\": "src/",
+            "Apex\\Cli\\Examples\\": "examples/"
+        }
+    }
+}
