@@ -12,17 +12,19 @@ use Apex\Container\Interfaces\ApexContainerInterface;
 class Cli extends CliRouter
 {
 
-    // Properties
-    private ApexContainerInterface $cntr;
-
     /**
      * Construct
     */
     public function __construct(
         protected string | array $cmd_namespace = "App\\Console",
-        protected bool $autoconfirm_typos = false
+        protected bool $autoconfirm_typos = false,
+        private ?ApexContainerInterface $cntr = null
     ) {
-        $this->cntr = new Container(use_attributes: true);
+
+        if ($this->cntr === null) {
+            $this->cntr = new Container(use_attributes: true);
+        }
+
     }
 
     /**
